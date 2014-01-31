@@ -1,0 +1,157 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model MortgageCalulator.Models.DataTableModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        .inputTitleStyle {
+            width: 100px;
+            height: 50px;
+            vertical-align: bottom;
+            font: 12px arial,verdana;
+        }
+        .inputStyle {
+            width:80px;
+        }
+        .tableTitleStyle {
+            width: 60px;
+            height: 50px;
+            vertical-align: bottom;
+            font: 12px arial,verdana;
+            padding-right:20px;
+        }
+        .tableRowStyle {
+            background-color: #FCFCFF;
+        }
+        .tableTextBoxStyle {
+            font: 10px arial,verdana;
+            height:12px;
+        }
+        .tableDataStyle {
+            font: 10px arial,verdana;
+            height: 16px;
+        }
+        .dataButtonStyle {
+            font: 10px arial,verdana;
+        }
+        .monthDataStyle {
+            width: 80px;
+            font: 10px arial,verdana;
+            height: 16px;
+        }
+        .monthTitleStyle {
+            width: 80px;
+            height: 50px;
+            vertical-align: bottom;
+            font: 12px arial,verdana;
+        }
+        .yearDataStyle {
+            width: 60px;
+            font: 10px arial,verdana;
+            height: 16px;
+        }
+        .yearTitleStyle {
+            width: 60px;
+            height: 50px;
+            vertical-align: bottom;
+            font: 12px arial,verdana;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td class="inputTitleStyle">Interest Rate</td>
+                <td class="inputTitleStyle">Loan Amount</td>
+                <td class="inputTitleStyle">Months Into The Loan</td>
+                <td class="inputTitleStyle">Term (months)</td>
+                <td class="inputTitleStyle">Tax and Insurance</td>
+            </tr>
+            <tr class="rowStyle">
+                <td><input id="txtIntRate" class="inputStyle" type="text" size="10" name="txtIntRate" value=".06375" /></td>
+                <td><input id="txtLoanAmount" class="inputStyle" type="text" size="10" name="txtLoanAmount" value="114400" /></td>
+                <td><input id="txtMonthsIntoLoan" class="inputStyle" type="text" size="10" name="txtMonthsIntoLoan" value="125" /></td>
+                <td><input id="txtTermOfLoan" class="inputStyle" type="text" size="10" name="txtTermOfLoan" value="360" /></td>
+                <td><input id="txtTaxAndIns" class="inputStyle" type="text" size="10" name="txtTaxAndIns" value="147" /></td>
+           </tr>
+
+            <tr></tr>
+
+            <tr>
+                <td class="inputTitleStyle">Starting Month</td>
+                <td class="inputTitleStyle">Starting Year</td>
+                <td class="inputTitleStyle">Current Month</td>
+                <td class="inputTitleStyle">Current Year</td>
+            </tr>
+            <tr>
+                <td><input id="txtStartMonth" class="inputStyle" type="text" size="5" name="txtStartMonth" value="9" /></td>
+                <td><input id="txtStartYear" class="inputStyle" type="text" size="10" name="txtStartYear" value="2003" /></td>
+                <td><input id="txtThisMonth" class="inputStyle" type="text" size="5" name="txtThisMonth" value="2" /></td>
+                <td><input id="txtThisYear" class="inputStyle" type="text" size="10" name="txtThisYear" value="2014" /></td>
+                <td><input id="btnSubmit" class="inputStyle" type="button" value="submit" title="Submit" onclick="Submit(-1, -1)" /></td>
+            </tr>
+            <tr></tr>
+        </table>
+        <br /><br />
+        <div id="divDataTableContainer"></div>
+
+<script type="text/javascript">
+    function Submit(i) {
+        if (i > -1) {
+            var v = $("#txtAddToPrinciple-" + i).val()
+        }
+        var q = i.toString();
+        var sm = $('#txtStartMonth').val();
+        var sy = $('#txtStartYear').val();
+        var c = $('#txtIntRate').val();
+        var L = $('#txtLoanAmount').val();
+        var p = $('#txtMonthsIntoLoan').val();
+        var n = $('#txtTermOfLoan').val();
+        var t = $('#txtTaxAndIns').val();
+        var m = $('#txtThisMonth').val();
+        var y = $('#txtThisYear').val();
+        var qs = "?sm="+sm+"&sy="+sy+"&c="+c+"&L="+L+"&p="+p+"&n="+n+"&t="+t+"&m="+m+"&y="+y+"&q="+q+"&v="+v;
+        $('#divDataTableContainer').empty()
+        $.ajax({
+            type: "GET",
+            url: "/Home/GetDataTable" + qs,
+            async: true,
+            success: function (tableSet) {
+                $('#divDataTableContainer').append(tableSet);
+            },
+            error: function (message) {
+                console.error(message.responseText);
+            }
+        })
+    }
+
+    function UpdatePayments(i, v) {
+        $("span.columnVisibility").hide();
+        $.ajax({
+            type: "GET",
+            url: "/Home/UpdatePayments?i=" + i + "&v=" + v,
+            async: true,
+            success: function (tableSet) {
+                $('#divDataTableContainer').append(tableSet);
+            },
+            error: function (message) {
+                console.error(message.responseText);
+            }
+        })
+
+    }
+
+    function GetPymt(i) {
+        return $("#txtAddToPrinciple-" + i).val()
+    }
+</script>
+</body>
+</html>

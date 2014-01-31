@@ -1,0 +1,32 @@
+﻿@model MortgageCalulator.Models.DataTableModel
+
+<style type="text/css">
+</style>
+
+<table>
+    <tr>
+        <td class="monthTitleStyle">Month</td>
+        <td class="tableTitleStyle">Principle</td>
+        <td class="tableTitleStyle">Minimum Principle and Interest</td>
+        <td class="tableTitleStyle">Monthly Taxes and Insurance</td>
+        <td class="tableTitleStyle">Additional Principle Payment</td>
+        <td class="tableTitleStyle">Repeat Additional Payment</td>
+        <td class="tableTitleStyle">Total Mortgage Payment</td>
+        <td class="tableTitleStyle">Remaining Balance</td>
+    </tr>
+
+        @for (int i = 0; i < Model.tableSet.Count; i++)
+{
+    <tr class="tableRowStyle">
+        <td class="monthDataStyle"><label id="lblMonth-@i" />@Model.tableSet[i]["date"]</td>
+        <td class="tableDataStyle"><label id="lblPrinciple-@i" />@if(@Model.tableSet[i]["principle"].ToString() != "$0.00") { @Model.tableSet[i]["principle"].ToString();} </td>
+        <td class="tableDataStyle"><label id="lblMinPrincAndIntPymt-@i" />@Model.tableSet[i]["pAndI"]</td>
+        <td class="tableDataStyle"><label id="lblMonthlyTaxAndInsPymt-@i" />@Model.tableSet[i]["tanAndIns"]</td>
+        <td><input id="txtAddToPrinciple-@i" class="tableTextBoxStyle" size="10" type="text" name="txtAddToPrinciple" value="@Model.tableSet[i]["addedPymt"]" /></td>
+        <td><input id="btnUpdatePymt-@i" name="btnUpdatePymt-@i" class="dataButtonStyle" type="button" value="From Here" onclick="Submit(@i, GetPymt(@i))" /></td>
+        <td class="tableDataStyle"><span class="columnVisibility"><label id="lblTotalMonthlyPymt-@i" />@Model.tableSet[i]["total"]</span></td>
+        <td class="tableDataStyle"><span class="columnVisibility"><label class="columnVisibility" id="lblRemainingBal-@i" />@Model.tableSet[i]["balance"]</span></td>
+    </tr>
+}
+
+    </table>

@@ -25,7 +25,7 @@ namespace MortgageCalulator.Controllers
             double dc = Convert.ToDouble(c) / 12;
             double dL = Convert.ToDouble(L); // Loan amount
             double dp0 = Convert.ToDouble(p);  //  Months Into Loan
-            double dn = Convert.ToDouble(n);  //  Term Of Loan
+            double dn = Convert.ToDouble(n) * 12;  //  Term Of Loan
             int startMonth = Convert.ToByte(sm);
             int currMonth = Convert.ToByte(m);
             int startYear = Convert.ToInt16(sy);

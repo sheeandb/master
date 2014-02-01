@@ -1,118 +1,90 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 @model MortgageCalulator.Models.DataTableModel
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>LoanBender</title>
-    <style type="text/css">
-        .inputTitleStyle {
-            width: 100px;
-            height: 50px;
-            vertical-align: bottom;
-            font: 12px arial,verdana;
-        }
-        .inputStyle {
-            width:80px;
-        }
-        .tableTitleStyle {
-            width: 60px;
-            height: 50px;
-            vertical-align: bottom;
-            font: 12px arial,verdana;
-            padding-right:20px;
-        }
-        .tableRowStyle {
-            background-color: #FCFCFF;
-        }
-        .tableTextBoxStyle {
-            font: 10px arial,verdana;
-            height:12px;
-        }
-        .tableDataStyle {
-            font: 10px arial,verdana;
-            height: 16px;
-        }
-        .dataButtonStyle {
-            font: 10px arial,verdana;
-        }
-        .monthDataStyle {
-            width: 80px;
-            font: 10px arial,verdana;
-            height: 16px;
-        }
-        .monthTitleStyle {
-            width: 80px;
-            height: 50px;
-            vertical-align: bottom;
-            font: 12px arial,verdana;
-        }
-        .yearDataStyle {
-            width: 60px;
-            font: 10px arial,verdana;
-            height: 16px;
-        }
-        .yearTitleStyle {
-            width: 60px;
-            height: 50px;
-            vertical-align: bottom;
-            font: 12px arial,verdana;
-        }
-    </style>
-</head>
-<body>
-    <div class="container" >
-        <p style="font-family: Neuropol; font-size: 48px; font-style: italic">
-            LoanBender<br />
-            <div style="font-family: arial,verdana; font-size: 16px;">
-                Plan your accelerated pay-off easily
-                <ul>
-                    <li>Enter the terms of your loan, and then "Submit"</li>
-                    <li>Increase your monthy payments, and watch your loan end faster</li>
-                </ul>
+<div class="container">
+    <div style="padding: 0 15px;">
+        <div class="row">
+            <div class="col-xs-12"> &nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2  hidden-sm hidden-xs ">
+                <div id="leftSkyscraper" class="skyscraper">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- Loanbender - Left -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:160px;height:600px"
+                         data-ad-client="ca-pub-5222348008135421"
+                         data-ad-slot="8165366002"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
             </div>
-        </p>
-        <table>
-            <tr>
-                <td class="inputTitleStyle">Interest Rate</td>
-                <td class="inputTitleStyle">Loan Amount</td>
-                <td class="inputTitleStyle">Months Into The Loan</td>
-                <td class="inputTitleStyle">Term (years)</td>
-                <td class="inputTitleStyle">Tax and Insurance</td>
-            </tr>
-            <tr class="rowStyle">
-                <td><input id="txtIntRate" class="inputStyle" type="text" size="10" name="txtIntRate" value=".06375" /></td>
-                <td><input id="txtLoanAmount" class="inputStyle" type="text" size="10" name="txtLoanAmount" value="114400" /></td>
-                <td><input id="txtMonthsIntoLoan" class="inputStyle" type="text" size="10" name="txtMonthsIntoLoan" value="125" /></td>
-                <td><input id="txtTermOfLoan" class="inputStyle" type="text" size="10" name="txtTermOfLoan" value="30" /></td>
-                <td><input id="txtTaxAndIns" class="inputStyle" type="text" size="10" name="txtTaxAndIns" value="147" /></td>
-            </tr>
+            <div class="col-md-8 col-md-offset-1 col-lg-offset-0 col-lg-7" role="main">
+                <div role="form" class="form-group form-inline mainContent">
+                    <p class="text-center" style="font-family: Neuropol; font-size: 48px; font-style: italic">
+                        LoanBender<br />
+                        <div class="text-center" style="font-family: arial,verdana; font-size: 16px;">
+                            Plan your accelerated pay-off<br />Enter the terms of your loan, and then "Submit"<br />
+                        </div>
+                    </p>
+                    <hr style="border: 3px solid #CCCCCC;" />
+                    <table class="table-condensed">
+                        <tr class="">
+                            <td class="inputTitleStyle">Interest Rate</td>
+                            <td class="inputTitleStyle">Loan Amount</td>
+                            <td class="inputTitleStyle">Months Into The Loan</td>
+                            <td class="inputTitleStyle">Term (years)</td>
+                            <td class="inputTitleStyle">Tax and Insurance</td>
+                        </tr>
+                        <tr class="rowStyle">
+                            <td><input id="txtIntRate" class="form-control inputWidth" type="text" size="10" name="txtIntRate" value=".06375" /></td>
+                            <td><input id="txtLoanAmount" class="form-control inputWidth" type="text" size="10" name="txtLoanAmount" value="114400" /></td>
+                            <td><input id="txtMonthsIntoLoan" class="form-control inputWidth" type="text" size="10" name="txtMonthsIntoLoan" value="125" /></td>
+                            <td><input id="txtTermOfLoan" class="form-control inputWidth" type="text" size="10" name="txtTermOfLoan" value="30" /></td>
+                            <td><input id="txtTaxAndIns" class="form-control inputWidth" type="text" size="10" name="txtTaxAndIns" value="147" /></td>
+                        </tr>
 
-            <tr></tr>
+                        <tr></tr>
 
-            <tr>
-                <td class="inputTitleStyle">Starting Month</td>
-                <td class="inputTitleStyle">Starting Year</td>
-                <td class="inputTitleStyle">Current Month</td>
-                <td class="inputTitleStyle">Current Year</td>
-            </tr>
-            <tr>
-                <td><input id="txtStartMonth" class="inputStyle" type="text" size="5" name="txtStartMonth" value="9" /></td>
-                <td><input id="txtStartYear" class="inputStyle" type="text" size="10" name="txtStartYear" value="2003" /></td>
-                <td><input id="txtThisMonth" class="inputStyle" type="text" size="5" name="txtThisMonth" value="2" /></td>
-                <td><input id="txtThisYear" class="inputStyle" type="text" size="10" name="txtThisYear" value="2014" /></td>
-                <td><input id="btnSubmit" class="inputStyle" type="button" value="Submit" onclick="Submit(-1, -1)" /></td>
-            </tr>
-            <tr></tr>
-        </table>
-        <br /><br />
-        <div id="divDataTableContainer"></div>
+                        <tr class="">
+                            <td class="inputTitleStyle">Starting Month</td>
+                            <td class="inputTitleStyle">Starting Year</td>
+                            <td class="inputTitleStyle">Current Month</td>
+                            <td class="inputTitleStyle">Current Year</td>
+                        </tr>
+                        <tr>
+                            <td><input id="txtStartMonth" class="form-control inputWidth" type="text" size="5" name="txtStartMonth" value="9" /></td>
+                            <td><input id="txtStartYear" class="form-control inputWidth" type="text" size="10" name="txtStartYear" value="2003" /></td>
+                            <td><input id="txtThisMonth" class="form-control inputWidth" type="text" size="5" name="txtThisMonth" value="2" /></td>
+                            <td><input id="txtThisYear" class="form-control inputWidth" type="text" size="10" name="txtThisYear" value="2014" /></td>
+                            <td><input id="btnSubmit" class="form-control inputWidth btn btn-primary"  type="button" value="Submit" onclick="Submit(-1, -1)" /></td>
+                        </tr>
+                        <tr></tr>
+                    </table>
+                    <div class="row">
+                        <div class="col-xs-12" id="divDataTableContainer"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-3 hidden-md hidden-sm hidden-xs ">
+                <div id="rightSkyscraper" class="skyscraper">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- Loanbender - Right -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:160px;height:600px"
+                         data-ad-client="ca-pub-5222348008135421"
+                         data-ad-slot="9642099204"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
 <script type="text/javascript">
     function Submit(i) {
         if (i > -1) {
@@ -163,5 +135,3 @@
         return $("#txtAddToPrinciple-" + i).val()
     }
 </script>
-</body>
-</html>

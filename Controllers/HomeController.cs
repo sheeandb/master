@@ -20,16 +20,15 @@ namespace MortgageCalulator.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        public PartialViewResult GetDataTable(string c, string L, string p, string n, string sm, string m, string sy, string y, string t, string q, string v)
+        public PartialViewResult GetDataTable(string c, string L, string p, string n, string sm, string d, string sy, string t, string q, string v)
         {
-            double dc = Convert.ToDouble(c) / 12;
+            double dc = Convert.ToDouble(c) / 1200;
             double dL = Convert.ToDouble(L); // Loan amount
             double dp0 = Convert.ToDouble(p);  //  Months Into Loan
             double dn = Convert.ToDouble(n) * 12;  //  Term Of Loan
             int startMonth = Convert.ToByte(sm);
-            int currMonth = Convert.ToByte(m);
+            DateTime date = Convert.ToDateTime(d);
             int startYear = Convert.ToInt16(sy);
-            int currYear = Convert.ToInt16(y);
             double taxAndIns = Convert.ToDouble(t);
             double pAndI;
             double pAndA;
@@ -38,8 +37,6 @@ namespace MortgageCalulator.Controllers
             double interest;
             double cumulativeAddedPymts;
             double prevBalance;
-            int month = currMonth;
-            int year = currYear;
             MortgageCalulator.Models.DataTableModel model = new DataTableModel();
             model.tableSet = new List<Dictionary<string, string>>();
             int k = Convert.ToInt32(q);
@@ -100,7 +97,7 @@ namespace MortgageCalulator.Controllers
 
                 // Load the new row values
                 model.tableRow = new Dictionary<string, string>();
-                model.tableRow["date"] = Convert.ToDateTime(String.Concat(year.ToString(), "-", month.ToString(), "-1")).ToString("MMM  yyyy"); 
+                model.tableRow["date"] = date.ToString("MMM  yyyy"); 
                 model.tableRow["principle"] = principle.ToString("C2");
                 model.tableRow["pAndI"] = pAndI.ToString("C2");
                 model.tableRow["tanAndIns"] = taxAndIns.ToString("C2");
@@ -114,9 +111,7 @@ namespace MortgageCalulator.Controllers
                 // Advance to the next row
                 i++; // row ordinal
                 dp0++; // months into the loan
-                DateTime nextMonth = Convert.ToDateTime(String.Concat(year, "-", month, "-1")).AddMonths(1);
-                month = nextMonth.Month;
-                year = nextMonth.Year;
+                date = date.AddMonths(1);
 
                 // Next row calculation
                 b0 = Math.Pow((1.0d + dc), dp0);

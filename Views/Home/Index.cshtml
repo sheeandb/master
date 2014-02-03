@@ -2,136 +2,309 @@
 
 @model MortgageCalulator.Models.DataTableModel
 
-<div class="container">
-    <div style="padding: 0 15px;">
-        <div class="row">
-            <div class="col-xs-12"> &nbsp;</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2  hidden-sm hidden-xs ">
-                <div id="leftSkyscraper" class="skyscraper">
-                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                    <!-- Loanbender - Left -->
-                    <ins class="adsbygoogle"
-                         style="display:inline-block;width:160px;height:600px"
-                         data-ad-client="ca-pub-5222348008135421"
-                         data-ad-slot="8165366002"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
+<input type="hidden" id="hdnStartMonth" />
+<input type="hidden" id="hdnCurrentDate" />
+<input type="hidden" id="hdnIntFrac" />
+
+    <div class="container">
+        <div style="padding: 0 15px;">
+            <div class="row">
+                <div class="col-xs-12"> &nbsp;</div>
             </div>
-            <div class="col-md-8 col-md-offset-1 col-lg-offset-0 col-lg-7" role="main">
-                <div role="form" class="form-group form-inline mainContent">
+            <div class="row">
+                <div class="col-md-2  hidden-sm hidden-xs ">
+                    <div id="leftSkyscraper" class="skyscraper">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- Loanbender - Left -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:160px;height:600px"
+                             data-ad-client="ca-pub-5222348008135421"
+                             data-ad-slot="8165366002"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                </div>
+                <div class="col-md-8 col-md-offset-1 col-lg-offset-0 col-lg-7" role="main">
+
+                    @*<div role="form" class="form-group form-inline mainContent">*@
+
                     <p class="text-center" style="font-family: Neuropol; font-size: 48px; font-style: italic">
                         LoanBender<br />
                         <div class="text-center" style="font-family: arial,verdana; font-size: 16px;">
-                            Plan your accelerated pay-off<br />Enter the terms of your loan, and then "Submit"<br />
+                            Plan your accelerated pay-off!<br />To begin, enter the terms of your loan, and then "Submit"<br />
                         </div>
                     </p>
                     <hr style="border: 3px solid #CCCCCC;" />
+
                     <table class="table-condensed">
                         <tr class="">
-                            <td class="inputTitleStyle">Interest Rate</td>
-                            <td class="inputTitleStyle">Loan Amount</td>
-                            <td class="inputTitleStyle">Months Into The Loan</td>
-                            <td class="inputTitleStyle">Term (years)</td>
-                            <td class="inputTitleStyle">Tax and Insurance</td>
+                            <td class="cellStyle">Interest Rate<br />(percent)</td>
+                            <td class="cellStyle">Loan Amount<br />(dollars)</td>
+                            <td class="cellStyle">Months Into<br />The Loan</td>
+                            <td class="cellStyle">Term (years)</td>
+                            <td class="cellStyle">Tax and Insurance<br />(dollars)</td>
                         </tr>
+
                         <tr class="rowStyle">
-                            <td><input id="txtIntRate" class="form-control inputWidth" type="text" size="10" name="txtIntRate" value=".06375" /></td>
-                            <td><input id="txtLoanAmount" class="form-control inputWidth" type="text" size="10" name="txtLoanAmount" value="114400" /></td>
-                            <td><input id="txtMonthsIntoLoan" class="form-control inputWidth" type="text" size="10" name="txtMonthsIntoLoan" value="125" /></td>
-                            <td><input id="txtTermOfLoan" class="form-control inputWidth" type="text" size="10" name="txtTermOfLoan" value="30" /></td>
-                            <td><input id="txtTaxAndIns" class="form-control inputWidth" type="text" size="10" name="txtTaxAndIns" value="147" /></td>
-                        </tr>
-
-                        <tr></tr>
-
-                        <tr class="">
-                            <td class="inputTitleStyle">Starting Month</td>
-                            <td class="inputTitleStyle">Starting Year</td>
-                            <td class="inputTitleStyle">Current Month</td>
-                            <td class="inputTitleStyle">Current Year</td>
+                            <td class="cellStyle">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="ddlIntWhole" data-toggle="dropdown" style="float:left;">
+                                        <span class=" caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="ddlIntWhole">
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("1"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">1</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("2"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">2</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("3"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">3</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("4"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">4</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("5"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">5</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("6"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">6</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("7"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">7</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("8"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">8</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("9"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">9</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("10"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">10</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("11"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">11</a></li>
+                                        <li role="presentation" onclick='$("#lblIntWhole").text("12"); $("#lblValInterest").hide();'><a role="menuitem" tabindex="-1" href="#">12</a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="ddlIntFrac" data-toggle="dropdown" style="float:left;">
+                                        <span class=" caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="ddlIntFrac">
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".000"); $("#lblIntFrac").text("");'><a role="menuitem" tabindex="-1" href="#">(.000)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".125"); $("#lblIntFrac").text("1/8");'><a role="menuitem" tabindex="-1" href="#">1/8 (.125)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".25"); $("#lblIntFrac").text("1/4");'><a role="menuitem" tabindex="-1" href="#">1/4 (.25)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".33333333333"); $("#lblIntFrac").text("1/3");'><a role="menuitem" tabindex="-1" href="#">1/3 (.333)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".375"); $("#lblIntFrac").text("3/8");'><a role="menuitem" tabindex="-1" href="#">3/8 (.375)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".5"); $("#lblIntFrac").text("1/2");'><a role="menuitem" tabindex="-1" href="#">1/2 (.5)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".625"); $("#lblIntFrac").text("5/8");'><a role="menuitem" tabindex="-1" href="#">5/8 (.625)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".66666666666"); $("#lblIntFrac").text("2/3");'><a role="menuitem" tabindex="-1" href="#">2/3 (.667)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".75"); $("#lblIntFrac").text("3/4");'><a role="menuitem" tabindex="-1" href="#">3/4 (.75)</a></li>
+                                        <li role="presentation" onclick='$("#hdnIntFrac").val(".875"); $("#lblIntFrac").text("7/8");'><a role="menuitem" tabindex="-1" href="#">7/8 (.875)</a></li>
+                                    </ul>
+                                </div>
+                                <label id="lblIntWhole" style="float:left; width:10px; margin-left:5px; position:relative; top:5px; left:5px;"></label>
+                                <label id="lblIntFrac" style="float: left; width: 10px; margin-left: 5px; position: relative; top: 5px; left: 5px;"></label>
+                           </td>
+                            <td class="cellStyle"><input id="txtLoanAmount" class="form-control inputWidth" type="text" name="txtLoanAmount" value="114400" onblur="if ($('#txtLoanAmount').val() != '') { $('#lblValLoanAmt').hide(); }" /></td>
+                            <td class="cellStyle"><input id="txtMonthsIntoLoan" class="form-control inputWidth" type="text" name="txtMonthsIntoLoan" value="125" onblur="if ($('#txtMonthsIntoLoan').val() != '') { $('#lblValMonths').hide(); }" /></td>
+                            <td class="cellStyle"><input id="txtTermOfLoan" class="form-control inputWidth" type="text" name="txtTermOfLoan" value="30" onblur="if ($('#txtTermOfLoan').val() != '') { $('#lblValTerm').hide(); }" /></td>
+                            <td class="cellStyle"><input id="txtTaxAndIns" class="form-control inputWidth" type="text" name="txtTaxAndIns" value="147" onblur="if ($('#txtTaxAndIns').val() != '') { $('#lblValTaxIns').hide(); }" /></td>
                         </tr>
                         <tr>
-                            <td><input id="txtStartMonth" class="form-control inputWidth" type="text" size="5" name="txtStartMonth" value="9" /></td>
-                            <td><input id="txtStartYear" class="form-control inputWidth" type="text" size="10" name="txtStartYear" value="2003" /></td>
-                            <td><input id="txtThisMonth" class="form-control inputWidth" type="text" size="5" name="txtThisMonth" value="2" /></td>
-                            <td><input id="txtThisYear" class="form-control inputWidth" type="text" size="10" name="txtThisYear" value="2014" /></td>
-                            <td><input id="btnSubmit" class="form-control inputWidth btn btn-primary"  type="button" value="Submit" onclick="Submit(-1, -1)" /></td>
+                            <td class="cellStyle">
+                                <label id="lblValInterest" class="errorMessage">Please select</label>
+                            </td>
+                            <td class="cellStyle">
+                                <label id="lblValLoanAmt" class="errorMessage">Please enter</label>
+                            </td>
+                            <td class="cellStyle">
+                                <label id="lblValMonths" class="errorMessage">Please enter</label>
+                            </td>
+                            <td class="cellStyle">
+                                <label id="lblValTerm" class="errorMessage">Please enter</label>
+                            </td>
+                            <td class="cellStyle">
+                                <label id="lblValTaxIns" class="errorMessage">Please enter</label>
+                            </td>
                         </tr>
-                        <tr></tr>
+                    </table>
+                    <table class="table-condensed">
+                        <tr class="">
+                            <td class="cellStyle">Starting Month</td>
+                            <td class="cellStyle">Starting Year</td>
+                            <td class="cellStyle">Current Date</td>
+                        </tr>
+                        <tr>
+                            <td class="cellStyle">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="ddlMonth" data-toggle="dropdown" style="float:left;">
+                                        Month<span class=" caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="ddlMonth">
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("1"); $("#lblStartMonth").text("Jan"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">1-Jan</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("2"); $("#lblStartMonth").text("Feb"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">2-Feb</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("3"); $("#lblStartMonth").text("Mar"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">3-Mar</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("4"); $("#lblStartMonth").text("Apr"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">4-Apr</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("5"); $("#lblStartMonth").text("May"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">5-May</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("6"); $("#lblStartMonth").text("Jun"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">6-Jun</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("7"); $("#lblStartMonth").text("Jul"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">7-Jul</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("8"); $("#lblStartMonth").text("Aug"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">8-Aug</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("9"); $("#lblStartMonth").text("Sep"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">9-Sep</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("10"); $("#lblStartMonth").text("Oct"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">10-Oct</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("11"); $("#lblStartMonth").text("Nov"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">11-Nov</a></li>
+                                        <li role="presentation" onclick='$("#hdnStartMonth").val("12"); $("#lblStartMonth").text("Dec"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">12-Dec</a></li>
+                                    </ul>
+                                </div>
+                                <label id="lblStartMonth" style="float:left; width:10px; margin-left:5px; position:relative; top:5px;"></label>
+                            </td>
+                            <td class="cellStyle">
+                                <div class="dropdown">
+                                    <button class="btn dropdown-toggle" type="button" id="ddlYear" data-toggle="dropdown" style="float:left;">
+                                        Year<span class=" caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="ddlYear">
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2016"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2016</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2015"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2015</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2014"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2014</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2013"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2013</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2012"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2012</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2011"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2011</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2010"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2010</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2009"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2009</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2008"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2008</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2007"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2007</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2006"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2006</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2005"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2005</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2004"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2004</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2003"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2003</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2002"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2002</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2001"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2001</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("2000"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">2000</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1999"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1999</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1998"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1998</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1997"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1997</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1996"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1996</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1995"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1995</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1994"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1994</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1993"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1993</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1992"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1992</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1991"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1991</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1990"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1990</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1989"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1989</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1988"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1988</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1987"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1987</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1986"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1986</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1985"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1985</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1984"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1984</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1983"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1983</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1982"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1982</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1981"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1981</a></li>
+                                        <li role="presentation" onclick='$("#lblStartYear").text("1980"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1980</a></li>
+                                    </ul>
+                                </div>
+                                <label id="lblStartYear" style="float: left; width: 40px; margin-left: 5px; position: relative; top: 5px;"></label>
+                            </td>
+                            <td class="cellStyle"><input type="text" id="datepicker" name="datepicker" value="@DateTime.Now.ToShortDateString()"></td>
+                            <td class="cellStyle"><input id="btnSubmit" class="form-control inputWidth btn btn-primary" type="button" value="Submit" onclick="Submit(-1, -1)" /></td>
+                        </tr>
+                        <tr>
+                            <td class="cellStyle">
+                                <label id="lblValStartMonth" class="errorMessage">Please select</label>
+                            </td>
+                            <td class="cellStyle">
+                                <label id="lblValStartYear" class="errorMessage">Please select</label>
+                            </td>
+                            <td class="cellStyle">
+                                <label id="lblValCurrentDate" class="errorMessage">Please enter</label>
+                            </td>
+                        </tr>
                     </table>
                     <div class="row">
                         <div class="col-xs-12" id="divDataTableContainer"></div>
                     </div>
+
+                    @*</div>*@
+
                 </div>
-            </div>
-            <div class="col-md-2 col-lg-3 hidden-md hidden-sm hidden-xs ">
-                <div id="rightSkyscraper" class="skyscraper">
-                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                    <!-- Loanbender - Right -->
-                    <ins class="adsbygoogle"
-                         style="display:inline-block;width:160px;height:600px"
-                         data-ad-client="ca-pub-5222348008135421"
-                         data-ad-slot="9642099204"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <div class="col-md-2 col-lg-3 hidden-md hidden-sm hidden-xs ">
+                    <div id="rightSkyscraper" class="skyscraper">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- Loanbender - Right -->
+                        <ins class="adsbygoogle"
+                             style="display:inline-block;width:160px;height:600px"
+                             data-ad-client="ca-pub-5222348008135421"
+                             data-ad-slot="9642099204"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script type="text/javascript">
-    function Submit(i) {
-        if (i > -1) {
-            var v = $("#txtAddToPrinciple-" + i).val()
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $("#datepicker").datepicker();
+                $('.dropdown-toggle').dropdown();
+            });
+        });
+
+
+        function Submit(i) {
+            if ($('#lblIntWhole').text() == "") {
+                $('#lblValInterest').show();
+            }
+            if ($('#txtLoanAmount').val() == "") {
+                $('#lblValLoanAmt').show();
+            }
+            if ($('#txtMonthsIntoLoan').val() == "") {
+                $('#lblValMonths').show();
+            }
+            if ($('#txtTermOfLoan').val() == "") {
+                $('#lblValTerm').show();
+            }
+            if ($('#txtTaxAndIns').val() == "") {
+                $('#lblValTaxIns').show();
+            }
+            if ($('#lblStartMonth').text() == "") {
+                $('#lblValStartMonth').show();
+            }
+            if ($('#lblStartYear').text() == "") {
+                $('#lblValStartYear').show();
+            }
+            if ($('#datepicker').val() == "") {
+                $('#lblValCurrentDate').show();
+            }
+            else {
+                if (i > -1) {
+                    var v = $("#txtAddToPrinciple-" + i).val()
+                }
+                var q = i.toString();
+                var sm = $('#hdnStartMonth').val();
+                var sy = $('#lblStartYear').text();
+                var c = parseInt($('#lblIntWhole').text()) + $('#hdnIntFrac').val();
+                var L = $('#txtLoanAmount').val();
+                var p = $('#txtMonthsIntoLoan').val();
+                var n = $('#txtTermOfLoan').val();
+                var t = $('#txtTaxAndIns').val();
+                var d = $('#datepicker').val().toString();
+                var qs = "?sm=" + sm + "&sy=" + sy + "&c=" + c + "&L=" + L + "&p=" + p + "&n=" + n + "&t=" + t + "&d=" + d + "&q=" + q + "&v=" + v;
+                $('#divDataTableContainer').empty()
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/GetDataTable" + qs,
+                    async: true,
+                    success: function (tableSet) {
+                        $('#divDataTableContainer').append(tableSet);
+                    },
+                    error: function (message) {
+                        console.error(message.responseText);
+                    }
+                })
+            }
         }
-        var q = i.toString();
-        var sm = $('#txtStartMonth').val();
-        var sy = $('#txtStartYear').val();
-        var c = $('#txtIntRate').val();
-        var L = $('#txtLoanAmount').val();
-        var p = $('#txtMonthsIntoLoan').val();
-        var n = $('#txtTermOfLoan').val();
-        var t = $('#txtTaxAndIns').val();
-        var m = $('#txtThisMonth').val();
-        var y = $('#txtThisYear').val();
-        var qs = "?sm="+sm+"&sy="+sy+"&c="+c+"&L="+L+"&p="+p+"&n="+n+"&t="+t+"&m="+m+"&y="+y+"&q="+q+"&v="+v;
-        $('#divDataTableContainer').empty()
-        $.ajax({
-            type: "GET",
-            url: "/Home/GetDataTable" + qs,
-            async: true,
-            success: function (tableSet) {
-                $('#divDataTableContainer').append(tableSet);
-            },
-            error: function (message) {
-                console.error(message.responseText);
-            }
-        })
-    }
 
-    function UpdatePayments(i, v) {
-        $("span.columnVisibility").hide();
-        $.ajax({
-            type: "GET",
-            url: "/Home/UpdatePayments?i=" + i + "&v=" + v,
-            async: true,
-            success: function (tableSet) {
-                $('#divDataTableContainer').append(tableSet);
-            },
-            error: function (message) {
-                console.error(message.responseText);
-            }
-        })
+        function UpdatePayments(i, v) {
+            $("span.columnVisibility").hide();
+            $.ajax({
+                type: "GET",
+                url: "/Home/UpdatePayments?i=" + i + "&v=" + v,
+                async: true,
+                success: function (tableSet) {
+                    $('#divDataTableContainer').append(tableSet);
+                },
+                error: function (message) {
+                    console.error(message.responseText);
+                }
+            })
 
-    }
+        }
 
-    function GetPymt(i) {
-        return $("#txtAddToPrinciple-" + i).val()
-    }
-</script>
+        function GetPymt(i) {
+            return $("#txtAddToPrinciple-" + i).val()
+        }
+    </script>

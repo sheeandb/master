@@ -1,23 +1,14 @@
 ﻿body {
 }
 
-#leftSkyscraper {
+.cellStyle {
+    width:20%;
+}
+.errorMessage {
+    display:none;
+    color:red;
 }
 
-.skyscraper {
-}
-
-.mainContent {
-
-}
-
-.inputWidth {
-
-}
-
-.outline {
-    border:1px solid red;
-}
 hr {
     height:10px;
     border:5px solid #CCCCCC;

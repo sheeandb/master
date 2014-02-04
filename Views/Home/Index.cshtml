@@ -41,7 +41,6 @@
                         <tr class="">
                             <td class="cellStyle">Interest Rate<br />(percent)</td>
                             <td class="cellStyle">Loan Amount<br />(dollars)</td>
-                            <td class="cellStyle">Months Into<br />The Loan</td>
                             <td class="cellStyle">Term (years)</td>
                             <td class="cellStyle">Tax and Insurance<br />(dollars)</td>
                         </tr>
@@ -88,7 +87,6 @@
                                 <label id="lblIntFrac" style="float: left; width: 10px; margin-left: 5px; position: relative; top: 5px; left: 5px;"></label>
                            </td>
                             <td class="cellStyle"><input id="txtLoanAmount" class="form-control inputWidth" type="text" name="txtLoanAmount" value="114400" onblur="if ($('#txtLoanAmount').val() != '') { $('#lblValLoanAmt').hide(); }" /></td>
-                            <td class="cellStyle"><input id="txtMonthsIntoLoan" class="form-control inputWidth" type="text" name="txtMonthsIntoLoan" value="125" onblur="if ($('#txtMonthsIntoLoan').val() != '') { $('#lblValMonths').hide(); }" /></td>
                             <td class="cellStyle"><input id="txtTermOfLoan" class="form-control inputWidth" type="text" name="txtTermOfLoan" value="30" onblur="if ($('#txtTermOfLoan').val() != '') { $('#lblValTerm').hide(); }" /></td>
                             <td class="cellStyle"><input id="txtTaxAndIns" class="form-control inputWidth" type="text" name="txtTaxAndIns" value="147" onblur="if ($('#txtTaxAndIns').val() != '') { $('#lblValTaxIns').hide(); }" /></td>
                         </tr>
@@ -98,9 +96,6 @@
                             </td>
                             <td class="cellStyle">
                                 <label id="lblValLoanAmt" class="errorMessage">Please enter</label>
-                            </td>
-                            <td class="cellStyle">
-                                <label id="lblValMonths" class="errorMessage">Please enter</label>
                             </td>
                             <td class="cellStyle">
                                 <label id="lblValTerm" class="errorMessage">Please enter</label>
@@ -235,31 +230,36 @@
 
 
         function Submit(i) {
+            var err = false;
             if ($('#lblIntWhole').text() == "") {
                 $('#lblValInterest').show();
+                err = true;
             }
             if ($('#txtLoanAmount').val() == "") {
                 $('#lblValLoanAmt').show();
-            }
-            if ($('#txtMonthsIntoLoan').val() == "") {
-                $('#lblValMonths').show();
+                err = true;
             }
             if ($('#txtTermOfLoan').val() == "") {
                 $('#lblValTerm').show();
+                err = true;
             }
             if ($('#txtTaxAndIns').val() == "") {
                 $('#lblValTaxIns').show();
+                err = true;
             }
             if ($('#lblStartMonth').text() == "") {
                 $('#lblValStartMonth').show();
+                err = true;
             }
             if ($('#lblStartYear').text() == "") {
                 $('#lblValStartYear').show();
+                err = true;
             }
             if ($('#datepicker').val() == "") {
                 $('#lblValCurrentDate').show();
+                err = true;
             }
-            else {
+            if (!err) {
                 if (i > -1) {
                     var v = $("#txtAddToPrinciple-" + i).val()
                 }
@@ -268,11 +268,10 @@
                 var sy = $('#lblStartYear').text();
                 var c = parseInt($('#lblIntWhole').text()) + $('#hdnIntFrac').val();
                 var L = $('#txtLoanAmount').val();
-                var p = $('#txtMonthsIntoLoan').val();
                 var n = $('#txtTermOfLoan').val();
                 var t = $('#txtTaxAndIns').val();
                 var d = $('#datepicker').val().toString();
-                var qs = "?sm=" + sm + "&sy=" + sy + "&c=" + c + "&L=" + L + "&p=" + p + "&n=" + n + "&t=" + t + "&d=" + d + "&q=" + q + "&v=" + v;
+                var qs = "?sm=" + sm + "&sy=" + sy + "&c=" + c + "&L=" + L + "&n=" + n + "&t=" + t + "&d=" + d + "&q=" + q + "&v=" + v;
                 $('#divDataTableContainer').empty()
                 $.ajax({
                     type: "GET",

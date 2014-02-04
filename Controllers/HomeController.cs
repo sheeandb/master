@@ -20,18 +20,18 @@ namespace MortgageCalulator.Controllers
         }
 
         [System.Web.Mvc.HttpGet]
-        public PartialViewResult GetDataTable(string c, string L, string p, string n, string sm, string d, string sy, string t, string q, string v)
+        public PartialViewResult GetDataTable(string c, string L, string n, string sm, string d, string sy, string t, string q, string v)
         {
             double dc = Convert.ToDouble(c) / 1200;
             double dL = Convert.ToDouble(L); // Loan amount
-            double dp0 = Convert.ToDouble(p);  //  Months Into Loan
             double dn = Convert.ToDouble(n) * 12;  //  Term Of Loan
             int startMonth = Convert.ToByte(sm);
-            DateTime date = Convert.ToDateTime(d);
+            DateTime date = Convert.ToDateTime(d); // Current date
             int startYear = Convert.ToInt16(sy);
+            DateTime startDate = Convert.ToDateTime(String.Concat(sy, "-", sm, "-1"));
+            double dp0 = (date.Date - startDate.Date).TotalDays * 12.0 / 365.25;  //  Months Into Loan
             double taxAndIns = Convert.ToDouble(t);
             double pAndI;
-            double pAndA;
             double balance;
             double principle;
             double interest;

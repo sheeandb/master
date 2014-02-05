@@ -22,15 +22,15 @@ namespace MortgageCalulator.Controllers
         [System.Web.Mvc.HttpGet]
         public PartialViewResult GetDataTable(string c, string L, string n, string sm, string d, string sy, string t, string q, string v)
         {
-            double dc = Convert.ToDouble(c) / 1200;
-            double dL = Convert.ToDouble(L); // Loan amount
+            double dc = Convert.ToDouble(AlphaStrip(c)) / 1200;
+            double dL = Convert.ToDouble(AlphaStrip(L)); // Loan amount
             double dn = Convert.ToDouble(n) * 12;  //  Term Of Loan
             int startMonth = Convert.ToByte(sm);
             DateTime date = Convert.ToDateTime(d); // Current date
             int startYear = Convert.ToInt16(sy);
             DateTime startDate = Convert.ToDateTime(String.Concat(sy, "-", sm, "-1"));
             double dp0 = (date.Date - startDate.Date).TotalDays * 12.0 / 365.25;  //  Months Into Loan
-            double taxAndIns = Convert.ToDouble(t);
+            double taxAndIns = Convert.ToDouble(AlphaStrip(t));
             double pAndI;
             double balance;
             double principle;
@@ -162,6 +162,13 @@ namespace MortgageCalulator.Controllers
         //    }
         //    Session[sessionId] = addToPymt;
         //}
+
+        private string AlphaStrip (string x)
+        {
+            string y = x.Replace(",", "");
+            y = y.Replace("$", "");
+            return y;
+        }
 
         private double GetAddedPaymentValue(int i, ArrayList addedPymtArray)
         {

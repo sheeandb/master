@@ -5,6 +5,9 @@
 <input type="hidden" id="hdnStartMonth" />
 <input type="hidden" id="hdnCurrentDate" />
 <input type="hidden" id="hdnIntFrac" />
+<input type="hidden" id="hdnLoanAmount" />
+<input type="hidden" id="hdnTermOfLoan" />
+<input type="hidden" id="hdnTaxAndIns" />
 
     <div class="container">
         <div style="padding: 0 15px;">
@@ -95,13 +98,13 @@
                                 <label id="lblValInterest" class="errorMessage">Please select</label>
                             </td>
                             <td class="cellStyle">
-                                <label id="lblValLoanAmt" class="errorMessage">Please enter</label>
+                                <label id="lblValLoanAmt" class="errorMessage">Please enter valid amount</label>
                             </td>
                             <td class="cellStyle">
-                                <label id="lblValTerm" class="errorMessage">Please enter</label>
+                                <label id="lblValTerm" class="errorMessage">Please enter valid number</label>
                             </td>
                             <td class="cellStyle">
-                                <label id="lblValTaxIns" class="errorMessage">Please enter</label>
+                                <label id="lblValTaxIns" class="errorMessage">Please enter valid amount</label>
                             </td>
                         </tr>
                     </table>
@@ -231,30 +234,49 @@
 
         function Submit(i) {
             var err = false;
+            var x;
             if ($('#lblIntWhole').text() == "") {
                 $('#lblValInterest').show();
                 err = true;
             }
-            if ($('#txtLoanAmount').val() == "") {
+
+            if (Validate($('#txtLoanAmount').val())) {
                 $('#lblValLoanAmt').show();
                 err = true;
             }
-            if ($('#txtTermOfLoan').val() == "") {
+            else {
+                x = AlphaStrip($('#txtLoanAmount').val());
+                $('#hdnLoanAmount').val(x);
+            }
+
+            if (Validate($('#txtTermOfLoan').val())) {
                 $('#lblValTerm').show();
                 err = true;
             }
-            if ($('#txtTaxAndIns').val() == "") {
+            else {
+                x = AlphaStrip($('#txtTermOfLoan').val());
+                $('#hdnTermOfLoan').val(x);
+            }
+
+            if (Validate($('#txtTaxAndIns').val())) {
                 $('#lblValTaxIns').show();
                 err = true;
             }
+            else {
+                x = AlphaStrip($('#txtTaxAndIns').val());
+                $('#hdnTaxAndIns').val(x);
+            }
+
             if ($('#lblStartMonth').text() == "") {
                 $('#lblValStartMonth').show();
                 err = true;
             }
+
             if ($('#lblStartYear').text() == "") {
                 $('#lblValStartYear').show();
                 err = true;
             }
+
             if ($('#datepicker').val() == "") {
                 $('#lblValCurrentDate').show();
                 err = true;
@@ -267,9 +289,9 @@
                 var sm = $('#hdnStartMonth').val();
                 var sy = $('#lblStartYear').text();
                 var c = parseInt($('#lblIntWhole').text()) + $('#hdnIntFrac').val();
-                var L = $('#txtLoanAmount').val();
-                var n = $('#txtTermOfLoan').val();
-                var t = $('#txtTaxAndIns').val();
+                var L = $('#hdnLoanAmount').val();
+                var n = $('#hdnTermOfLoan').val();
+                var t = $('#hdnTaxAndIns').val();
                 var d = $('#datepicker').val().toString();
                 var qs = "?sm=" + sm + "&sy=" + sy + "&c=" + c + "&L=" + L + "&n=" + n + "&t=" + t + "&d=" + d + "&q=" + q + "&v=" + v;
                 $('#divDataTableContainer').empty()
@@ -285,6 +307,20 @@
                     }
                 })
             }
+        }
+
+        function Validate(x) {
+            var reg = RegExp("^\\$?(\\d{1,3},?(\\d{3},?)*\\d{3}(\\.\\d{1,3})?|\\d{1,3}(\\.\\d{2})?)$");
+            var y = reg.test(x);
+            return !y;
+        }
+
+        function AlphaStrip(x) {
+            var dollarSign = RegExp("\\$");
+            var comma = RegExp(",");
+            var y = x.replace(dollarSign, "");
+            var y = y.replace(comma, "");
+            return y;
         }
 
         function UpdatePayments(i, v) {

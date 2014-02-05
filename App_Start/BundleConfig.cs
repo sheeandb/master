@@ -9,7 +9,9 @@ namespace MortgageCalulator
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery/jquery-{version}.js"));
+                        "~/Scripts/jquery/jquery-{version}.js",
+                        "~/Scripts/jquery/jquery.validate.js",
+                        "~/Scripts/jquery/jquery.validate.unobtrusive"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery/ui/jquery-ui-{version}.custom.js"));

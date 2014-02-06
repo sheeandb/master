@@ -19,6 +19,11 @@ namespace MortgageCalulator.Controllers
             return View();
         }
 
+        public ActionResult Cached()
+        {
+            return PartialView();
+        }
+
         [System.Web.Mvc.HttpGet]
         public PartialViewResult GetDataTable(string c, string L, string n, string sm, string d, string sy, string t, string q, string v)
         {

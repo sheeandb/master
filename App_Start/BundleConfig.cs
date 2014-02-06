@@ -31,7 +31,8 @@ namespace MortgageCalulator
                         "~/Content/bootstrap-theme.css"));
 
             bundles.Add(new StyleBundle("~/Content/jqueryui").Include(
-                        "~/Content/themes/smoothness/jquery-ui-1.10.4.custom.css"));
+                        "~/Content/themes/smoothness/jquery-ui-{version}.custom.css",
+                        "~/Content/themes/smoothness/images/*.png"));
         }
     }
 }

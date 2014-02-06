@@ -1,0 +1,190 @@
+﻿
+<input type="hidden" id="hdnStartMonth" />
+<input type="hidden" id="hdnCurrentDate" />
+<input type="hidden" id="hdnIntFrac" />
+<input type="hidden" id="hdnLoanAmount" />
+<input type="hidden" id="hdnTermOfLoan" />
+<input type="hidden" id="hdnTaxAndIns" />
+
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32063802-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#datepicker").datepicker();
+        $('.dropdown-toggle').dropdown();
+        $("#accordion").accordion({ heightStyle: "content", autoHeight: false, collapsible: true, active: false });
+        $("#progressBarWrapper").hide()
+        $("#progressBar").progressbar({ disabled: false, value: false });
+    });
+
+
+    function Submit(i) {
+        var err = false;
+        var x;
+        if ($('#lblIntWhole').text() == "") {
+            $('#lblValInterest').show();
+            err = true;
+        }
+
+        if (Validate($('#txtLoanAmount').val())) {
+            $('#lblValLoanAmt').show();
+            err = true;
+        }
+        else {
+            x = AlphaStrip($('#txtLoanAmount').val());
+            $('#hdnLoanAmount').val(x);
+        }
+
+        if (Validate($('#txtTermOfLoan').val())) {
+            $('#lblValTerm').show();
+            err = true;
+        }
+        else {
+            x = AlphaStrip($('#txtTermOfLoan').val());
+            $('#hdnTermOfLoan').val(x);
+        }
+
+        if (Validate($('#txtTaxAndIns').val())) {
+            $('#lblValTaxIns').show();
+            err = true;
+        }
+        else {
+            x = AlphaStrip($('#txtTaxAndIns').val());
+            $('#hdnTaxAndIns').val(x);
+        }
+
+        if ($('#lblStartMonth').text() == "") {
+            $('#lblValStartMonth').show();
+            err = true;
+        }
+
+        if ($('#lblStartYear').text() == "") {
+            $('#lblValStartYear').show();
+            err = true;
+        }
+
+        if ($('#datepicker').val() == "") {
+            $('#lblValCurrentDate').show();
+            err = true;
+        }
+        if (!err) {
+            if (i > -1) {
+                var v = $("#txtAddToPrinciple-" + i).val()
+            }
+            var q = i.toString();
+            var sm = $('#hdnStartMonth').val();
+            var sy = $('#lblStartYear').text();
+            var c = parseInt($('#lblIntWhole').text()) + $('#hdnIntFrac').val();
+            var L = $('#hdnLoanAmount').val();
+            var n = $('#hdnTermOfLoan').val();
+            var t = $('#hdnTaxAndIns').val();
+            var d = $('#datepicker').val().toString();
+            var qs = "?sm=" + sm + "&sy=" + sy + "&c=" + c + "&L=" + L + "&n=" + n + "&t=" + t + "&d=" + d + "&q=" + q + "&v=" + v;
+            $('#divDataTableContainer').empty()
+            $("#progressBarWrapper").show()
+            $("#progressBar").progressbar("enable");
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetDataTable" + qs,
+                async: true,
+                success: function (tableSet) {
+                    $("#progressBarWrapper").hide()
+                    $("#progressBar").progressbar("disable");
+                    $('#divDataTableContainer').append(tableSet);
+                },
+                error: function (message) {
+                    console.error(message.responseText);
+                }
+            })
+        }
+    }
+
+    function Validate(x) {
+        var reg = RegExp("^\\$?(\\d{1,3},?(\\d{3},?)*\\d{3}(\\.\\d{1,3})?|\\d{1,3}(\\.\\d{2})?)$");
+        var y = reg.test(x);
+        return !y;
+    }
+
+    function AlphaStrip(x) {
+        var dollarSign = RegExp("\\$");
+        var comma = RegExp(",");
+        var y = x.replace(dollarSign, "");
+        var y = y.replace(comma, "");
+        return y;
+    }
+
+    function UpdatePayments(i, v) {
+        $("span.columnVisibility").hide();
+        $.ajax({
+            type: "GET",
+            url: "/Home/UpdatePayments?i=" + i + "&v=" + v,
+            async: true,
+            success: function (tableSet) {
+                $('#divDataTableContainer').append(tableSet);
+            },
+            error: function (message) {
+                console.error(message.responseText);
+            }
+        })
+
+    }
+
+    function GetPymt(i) {
+        return $("#txtAddToPrinciple-" + i).val()
+    }
+</script>
+
+<div class="container">
+    <div style="padding: 0 15px;">
+        <div class="row">
+            <div class="col-xs-12"> &nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2  hidden-sm hidden-xs ">
+                <div id="leftSkyscraper" class="skyscraper">
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- Loanbender - Left -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:160px;height:600px"
+                         data-ad-client="ca-pub-5222348008135421"
+                         data-ad-slot="8165366002"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-1 col-lg-offset-0 col-lg-7" role="main">
+                <p>
+                    <div class="text-center" style="font-family: arial,verdana; font-size: 16px;">
+                        <img src="~/Images/loanbenderTitle.png" class="text-center" /><br /><br />
+                        Plan your accelerated pay-off!<br />To begin, enter the terms of your loan, and then "Submit"<br /><br />
+                    </div>
+                </p>
+                <p>
+                    <div id="accordion">
+                        <h5>About LoanBender</h5>
+                        <div>
+                            Looking for a mortgage calculator that gives you accelerated pay-off dates when extra principle payments vary over the course of the loan term?  This is it! <br /><br />
+                            Most mortgage calculators assume that your extra principle payments will be constant.  But lenders typically won’t limit how much you apply to the principal each month.  Your payments may vary, depending on your circumstances.  LoanBender is an amortization calculator that gives you the flexibility of changing the amount you might pay toward the principle at any given month, and shows you the result of such a modification throughout the term of the loan instantly!<br /><br />
+                        </div>
+                        <h5>How to Use LoanBender</h5>
+                        <div>
+                            LoanBender works for any kind of loan or mortgage.  Just enter the details of the loan and hit “Submit”.<br /><br />
+                            This is an educational tool that demonstrates how quickly a loan can be paid-off for different scenarios.  It will show what affect your extra payments could have on the pay-off date if you put more money in towards the beginning of the loan as opposed to at the end.<br /><br />
+                            What if you knew you would be able to put more money towards your principle at some time in the future.  Once you’ve entered the details of your loan into LoanBender, and selected “Submit” to display the amortization table, just scroll down to the appropriate month, enter the new amount under “Additional Principle Payment” column, and select “From Here”.  The table will repopulate, displaying the new amount beginning that month and continuing all the way to the end of the term, and displaying the amortization of that new series of payments.  You can do this for any number of months, too.<br /><br />
+                            The “Tax And Insurance” entry applies mostly to mortgages.  It does not enter into the pay-off calculation; it only affects the monthly Total Mortgage Payment column in the table.  If you have a mortgage, enter your monthly property tax escrow plus your monthly mortgage insurance payment.  If your loan does not have any additional monthly charges, this value can be zero.<br /><br />
+                        </div>
+                    </div>
+                </p>

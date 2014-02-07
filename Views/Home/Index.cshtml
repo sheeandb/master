@@ -13,7 +13,7 @@
                     <tr class="rowStyle">
                         <td class="cellStyle">
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="ddlIntWhole" data-toggle="dropdown" style="float:left;">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="ddlIntWhole" data-toggle="dropdown" style="float:left;">
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="ddlIntWhole">
@@ -32,7 +32,7 @@
                                 </ul>
                             </div>
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="ddlIntFrac" data-toggle="dropdown" style="float:left;">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="ddlIntFrac" data-toggle="dropdown" style="float:left;">
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="ddlIntFrac">
@@ -79,7 +79,7 @@
                     <tr>
                         <td class="cellStyle">
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="ddlMonth" data-toggle="dropdown" style="float:left;">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="ddlMonth" data-toggle="dropdown" style="float:left;">
                                     Month &nbsp;<span class=" caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="ddlMonth">
@@ -97,11 +97,11 @@
                                     <li role="presentation" onclick='$("#hdnStartMonth").val("12"); $("#lblStartMonth").text("Dec"); $("#lblValStartMonth").hide();'><a role="menuitem" tabindex="-1" href="#">12-Dec</a></li>
                                 </ul>
                             </div>
-                            <label id="lblStartMonth" style="float:left; width:10px; margin-left:5px; position:relative; top:5px;"></label>
+                            <label id="lblStartMonth" style="float:left; width:10px; margin-left:5px; position:relative; top:5px; left:5px"></label>
                         </td>
                         <td class="cellStyle">
                             <div class="dropdown">
-                                <button class="btn dropdown-toggle" type="button" id="ddlYear" data-toggle="dropdown" style="float:left;">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="ddlYear" data-toggle="dropdown" style="float:left;">
                                     Year &nbsp;<span class=" caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="ddlYear">
@@ -144,7 +144,7 @@
                                     <li role="presentation" onclick='$("#lblStartYear").text("1980"); $("#lblValStartYear").hide();'><a role="menuitem" tabindex="-1" href="#">1980</a></li>
                                 </ul>
                             </div>
-                            <label id="lblStartYear" style="float: left; width: 40px; margin-left: 5px; position: relative; top: 5px;"></label>
+                            <label id="lblStartYear" style="float: left; width: 40px; margin-left: 5px; position: relative; top: 5px; left: 5px"></label>
                         </td>
                         <td class="cellStyle"><input type="text" id="datepicker" name="datepicker" value="@DateTime.Now.ToShortDateString()"></td>
                         <td class="cellStyle"><input id="btnSubmit" class="form-control inputWidth btn btn-primary" type="button" value="Submit" onclick="Submit(-1, -1)" /></td>

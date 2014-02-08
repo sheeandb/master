@@ -24,11 +24,11 @@ namespace MortgageCalulator
             //bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
             //            "~/Scripts/modernizr-*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                        "~/Content/Main.css",
-                        "~/Content/bootstrap.css",
-                        "~/Content/bootstrap-responsive.css",
-                        "~/Content/bootstrap-theme.css"));
+            //bundles.Add(new StyleBundle("~/Content/css").Include(
+            //            "~/Content/Main.css",
+            //            "~/Content/bootstrap.css",
+            //            "~/Content/bootstrap-responsive.css",
+            //            "~/Content/bootstrap-theme.css"));
 
             //bundles.Add(new StyleBundle("~/Content/jqueryui").Include(
             //            "~/Content/themes/smoothness/jquery-ui-{version}.custom.css",

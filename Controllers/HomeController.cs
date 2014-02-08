@@ -25,7 +25,6 @@ namespace MortgageCalulator.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        //[ValidateAntiForgeryTokenAttribute]
         public PartialViewResult GetDataTable(string c, string L, string n, string sm, string d, string sy, string t, string q, string v)
         {
             double dc = Convert.ToDouble(AlphaStrip(c)) / 1200;

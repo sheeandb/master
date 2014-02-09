@@ -75,7 +75,7 @@ function Submit(i) {
         var t = $('#hdnTaxAndIns').val();
         var d = $('#datepicker').val().toString();
         var qs = "?sm=" + sm + "&sy=" + sy + "&c=" + c + "&L=" + L + "&n=" + n + "&t=" + t + "&d=" + d + "&q=" + q + "&v=" + v;
-        var data = { q: q, sm: sm, sy: sy, c: c, L: L, n: n, t: t, d: d, q: q }
+        var data = { sm: sm, sy: sy, c: c, L: L, n: n, t: t, d: d, q: q, v: v }
         $('#divDataTableContainer').empty()
         $("#progressBarWrapper").show()
         $("#progressBar").progressbar("enable");

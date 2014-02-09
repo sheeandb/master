@@ -14,7 +14,7 @@ namespace MortgageCalulator.Controllers
         //
         // GET: /Default/
 
-        public ActionResult Index()
+        public ActionResult Default()
         {
             return View();
         }
@@ -28,145 +28,130 @@ namespace MortgageCalulator.Controllers
         public PartialViewResult GetDataTable(string c, string L, string n, string sm, string d, string sy, string t, string q, string v)
         {
             double dc = Convert.ToDouble(AlphaStrip(c)) / 1200;
-            double dL = Convert.ToDouble(AlphaStrip(L)); // Loan amount
-            double dn = Convert.ToDouble(n) * 12;  //  Term Of Loan
+            double loanAmount = Convert.ToDouble(AlphaStrip(L));
+            int termOfLoan = Convert.ToInt32(n) * 12;
             int startMonth = Convert.ToByte(sm);
-            DateTime date = Convert.ToDateTime(d); // Current date
+            DateTime currentDate = Convert.ToDateTime(d);
             int startYear = Convert.ToInt16(sy);
             DateTime startDate = Convert.ToDateTime(String.Concat(sy, "-", sm, "-1"));
-            double dp0 = (date.Date - startDate.Date).TotalDays * 12.0 / 365.25;  //  Months Into Loan
+            double monthsIntoLoan = (currentDate.Date - startDate.Date).TotalDays * 12.0 / 365.25;
             double taxAndIns = Convert.ToDouble(AlphaStrip(t));
             double pAndI;
             double balance;
+            double addedPymt;
             double principle;
             double interest;
-            double cumulativeAddedPymts;
+            double cumulativeAddedPymts = 0.0;
             double prevBalance;
-            MortgageCalulator.Models.DataTableModel model = new DataTableModel();
+            double total;
+            DataTableModel model = new DataTableModel();
             model.tableSet = new List<Dictionary<string, string>>();
-            int k = Convert.ToInt32(q);
+            int addedPymtStartingRow = Convert.ToInt32(q);
             string sessionId = Session.SessionID;
-            ArrayList addedPymtArray = new ArrayList();
-            int i = 0;
+            ArrayList pAndIArray = new ArrayList();
+            ArrayList balanceArray = new ArrayList(); // Holds the balance for each month
+            ArrayList addedPymtArray = new ArrayList(); // Holds the Additional Principle Payment for each month
+            ArrayList cumAddedPymtArray = new ArrayList(); // Holds the Cumulative Additional Principle Payment for each month
+            int i = 0; // Zero-based row number, where i = 0 to model.tableSet.count()
+            int month = 1; // Full term month counter
 
-            if (q != "-1")
+            if (addedPymtStartingRow == -1)
             {
-                //addToPymt has changed
-                double f = Convert.ToDouble(v);
+                // This is the initial rendering of the table
 
-                // Get the cache
-                if (Session.Count < 1)
+                // Build the arrays
+                // Iterate by rows
+                for (month = 1; month <= termOfLoan; month++)
                 {
-                    // Cache timed out
+                    // Row calculation
+                    double a = Math.Pow((1.0d + dc), termOfLoan);
+                    double b = Math.Pow((1.0d + dc), month);
+                    pAndI = loanAmount * dc * a / (a - 1);
+                    balance = loanAmount * (a - b) / (a - 1.0d);
+
+                    // Save row values to arrays
+                    pAndIArray.Add(pAndI);
+                    balanceArray.Add(balance);
+                    addedPymtArray.Add(0.0);
+                    cumAddedPymtArray.Add(0.0);
                 }
-                else
-                {
-                    addedPymtArray = (ArrayList)Session[sessionId];
-                    for (int r = k; r < addedPymtArray.Count; r++)
-                    {
-                        addedPymtArray[r] = v;
-                    }
-                }
+
+                // Store arrays to session State
+                Session[String.Concat("pAndI-", sessionId)] = pAndIArray;
+                Session[String.Concat("balance-", sessionId)] = balanceArray;
+                Session[String.Concat("addedPymt-", sessionId)] = addedPymtArray;
+                Session[String.Concat("cumAddedPymt-", sessionId)] = cumAddedPymtArray;
             }
             else
             {
-                // Initialize array
-                for (int s = 0; s < 500; s++)
-                {
-                    addedPymtArray.Add(0.0);
-                }
+                // There is an additional payment
+                // So, there has to be Session variables
+                addedPymtStartingRow = addedPymtStartingRow + (int)monthsIntoLoan;
+                double additionalPymt = Convert.ToDouble(v);
 
-                Session[sessionId] = addedPymtArray;
+                // Retrieve addedPymtArray from session state
+                addedPymtArray = (ArrayList)Session[String.Concat("addedPymt-", sessionId)];
+                balanceArray = (ArrayList)Session[String.Concat("balance-", sessionId)];
+                cumAddedPymtArray = (ArrayList)Session[String.Concat("cumAddedPymt-", sessionId)];
+
+                // Modify addedPymtArray
+                for (int r = addedPymtStartingRow; r < addedPymtArray.Count; r++)
+                {
+                    addedPymtArray[r] = additionalPymt;
+                    cumulativeAddedPymts = cumulativeAddedPymts + additionalPymt;
+                    cumAddedPymtArray[r] = cumulativeAddedPymts;
+                    balanceArray[r] = (double)balanceArray[r] - cumulativeAddedPymts;
+                }
             }
 
-            // First row calculation
-            double a = Math.Pow((1.0d + dc), dn);
-            double b0 = Math.Pow((1.0d + dc), dp0);
-            pAndI = dL * dc * a / (a - 1);
-            balance = dL * (a - b0) / (a - 1.0d);
-          
-            double addedPymt = GetAddedPaymentValue(0, addedPymtArray);
-            cumulativeAddedPymts = addedPymt;
 
-            // Modify balance
-            balance = balance - addedPymt;
+            // Retrieve arrays from session state
+            addedPymtArray = (ArrayList)Session[String.Concat("addedPymt-", sessionId)];
+            balanceArray = (ArrayList)Session[String.Concat("balance-", sessionId)];
+            pAndIArray = (ArrayList)Session[String.Concat("pAndI-", sessionId)];
+            cumAddedPymtArray = (ArrayList)Session[String.Concat("cumAddedPymt-", sessionId)];
 
-            principle = 0.0;
-            interest = 0.0;
+            // Build data model for table from the ArrayLists
+            month = (int)monthsIntoLoan;
+            balance = (double)balanceArray[month];
+            total = (double)pAndIArray[month] + (double)addedPymtArray[month] + taxAndIns;
 
-            // Build the data table and the array
-            // Iterate by rows
-            while (balance > 0.0d)
+            while ((balance > 0.0) && (month < termOfLoan) )
             {
-                double dTotal = pAndI + taxAndIns + addedPymt;
+                pAndI = (double)pAndIArray[month];
+                addedPymt = (double)addedPymtArray[month];
 
-                // Load the new row values
                 model.tableRow = new Dictionary<string, string>();
-                model.tableRow["date"] = date.ToString("MMM  yyyy"); 
-                model.tableRow["principle"] = principle.ToString("C2");
+                model.tableRow["date"] = startDate.AddMonths(month).ToString("MMM  yyyy");
+                if (month < 1)
+                {
+                    model.tableRow["principle"] = "";
+                }
+                else
+                {
+                    model.tableRow["principle"] = (Convert.ToDouble(balanceArray[month - 1]) - Convert.ToDouble(balanceArray[month]) - addedPymt).ToString("C2");
+                }
                 model.tableRow["pAndI"] = pAndI.ToString("C2");
-                model.tableRow["tanAndIns"] = taxAndIns.ToString("C2");
                 model.tableRow["addedPymt"] = addedPymt.ToString("F0");
-                model.tableRow["total"] = dTotal.ToString("C2");
+                model.tableRow["total"] = total.ToString("C2");
                 model.tableRow["balance"] = balance.ToString("C2");
+                model.tableRow["taxAndIns"] = taxAndIns.ToString("C2");
 
-                // Add the new row to the data table
+                // Add the row to the data table
                 model.tableSet.Add(model.tableRow);
 
-                // Advance to the next row
-                i++; // row ordinal
-                dp0++; // months into the loan
-                date = date.AddMonths(1);
-
-                // Next row calculation
-                b0 = Math.Pow((1.0d + dc), dp0);
-                prevBalance = balance;
-                balance = dL * (a - b0) / (a - 1.0d);
-
-                // Next row added payment
-                addedPymt = GetAddedPaymentValue(i, addedPymtArray);
-                cumulativeAddedPymts = cumulativeAddedPymts + addedPymt;
-
-                // Adjusted balance
-                balance = balance - cumulativeAddedPymts;
-
-                // Calculate principle
-                principle = prevBalance - balance;
+                // Iterate row
+                month++;
+                balance = (double)balanceArray[month];
             }
 
-            if (Session.Count < 1)
-            {
-                Session[sessionId] = addedPymtArray;
-            }
 
-            Session[sessionId] = addedPymtArray;
+            Session[String.Concat("pAndI-", sessionId)] = pAndIArray;
+            Session[String.Concat("balance-", sessionId)] = balanceArray;
+            Session[String.Concat("addedPymt-", sessionId)] = addedPymtArray;
 
             return PartialView("DataTable", model);
         }
-
-        //[System.Web.Mvc.HttpGet]
-        //public void UpdatePayments(string i, string v)
-        //{
-        //    int k = Convert.ToInt32(i);
-        //    double f = Convert.ToDouble(v);
-        //    string sessionId = Session.SessionID;
-        //    ArrayList addToPymt = new ArrayList();
-
-        //    // Get the cache
-        //    if (Session.Count < 1)
-        //    {
-        //        // Cache timed out
-        //    }
-        //    else
-        //    {
-        //        addToPymt = (ArrayList)Session[sessionId];
-        //        for (int j = k; j < addToPymt.Count; j++ )
-        //        {
-        //            addToPymt[j] = v;
-        //        }
-        //    }
-        //    Session[sessionId] = addToPymt;
-        //}
 
         private string AlphaStrip (string x)
         {
@@ -193,7 +178,7 @@ namespace MortgageCalulator.Controllers
             }
 
             // Get the value of the new element
-            dAddedPymt = Convert.ToDouble(addedPymtArray[i]);
+            dAddedPymt = (double)addedPymtArray[i];
 
             return dAddedPymt;
         }

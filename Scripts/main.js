@@ -1,5 +1,6 @@
 ﻿
 function Submit(i) {
+    $('.errorMessage').hide();
     var err = false;
     var x;
     if ($('#lblIntWhole').text() == "") {
@@ -32,6 +33,22 @@ function Submit(i) {
     else {
         x = AlphaStrip($('#txtTaxAndIns').val());
         $('#hdnTaxAndIns').val(x);
+    }
+
+    if ($('#txtAdjustment').val() == "") {
+        $('#hdnAdjustment').val(0)
+        $('#lblValAdjustment').hide();
+
+    }
+    else {
+        if (Validate($('#txtAdjustment').val())) {
+            $('#lblValAdjustment').show();
+            err = true;
+        }
+        else {
+            x = AlphaStrip($('#txtAdjustment').val());
+            $('#hdnAdjustment').val(x);
+        }
     }
 
     if ($('#lblStartMonth').text() == "") {
@@ -74,8 +91,9 @@ function Submit(i) {
         var n = $('#hdnTermOfLoan').val();
         var t = $('#hdnTaxAndIns').val();
         var d = $('#datepicker').val().toString();
-        var qs = "?sm=" + sm + "&sy=" + sy + "&c=" + c + "&L=" + L + "&n=" + n + "&t=" + t + "&d=" + d + "&q=" + q + "&v=" + v;
-        var data = { sm: sm, sy: sy, c: c, L: L, n: n, t: t, d: d, q: q, v: v }
+        var adj = $('#hdnAdjustment').val();
+        var qs = "?sm=" + sm + "&sy=" + sy + "&c=" + c + "&L=" + L + "&n=" + n + "&t=" + t + "&d=" + d + "&q=" + q + "&v=" + v + "&adj=" + adj;
+        var data = { sm: sm, sy: sy, c: c, L: L, n: n, t: t, d: d, q: q, v: v, adj: adj }
         $('#divDataTableContainer').empty()
         $("#progressBarWrapper").show()
         $("#progressBar").progressbar("enable");

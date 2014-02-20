@@ -25,7 +25,7 @@ namespace MortgageCalulator.Controllers
         }
 
         [System.Web.Mvc.HttpPost]
-        public PartialViewResult GetDataTable(string c, string L, string n, string sm, string d, string sy, string t, string q, string v)
+        public PartialViewResult GetDataTable(string c, string L, string n, string sm, string d, string sy, string t, string q, string v, string adj)
         {
             double dc = Convert.ToDouble(AlphaStrip(c)) / 1200;
             double loanAmount = Convert.ToDouble(AlphaStrip(L));
@@ -36,6 +36,7 @@ namespace MortgageCalulator.Controllers
             DateTime startDate = Convert.ToDateTime(String.Concat(sy, "-", sm, "-1"));
             double monthsIntoLoan = (currentDate.Date - startDate.Date).TotalDays * 12.0 / 365.25;
             double taxAndIns = Convert.ToDouble(AlphaStrip(t));
+            double adjustment = Convert.ToDouble(AlphaStrip(adj));
             double pAndI;
             double balance;
             double addedPymt;
@@ -44,6 +45,7 @@ namespace MortgageCalulator.Controllers
             double cumulativeAddedPymts = 0.0;
             double prevBalance;
             double total;
+            double oldAddedPayment;
             DataTableModel model = new DataTableModel();
             model.tableSet = new List<Dictionary<string, string>>();
             int addedPymtStartingRow = Convert.ToInt32(q);
@@ -89,19 +91,25 @@ namespace MortgageCalulator.Controllers
                 addedPymtStartingRow = addedPymtStartingRow + (int)monthsIntoLoan;
                 double additionalPymt = Convert.ToDouble(v);
 
-                // Retrieve addedPymtArray from session state
+                // Retrieve arrays from session state
                 addedPymtArray = (ArrayList)Session[String.Concat("addedPymt-", sessionId)];
                 balanceArray = (ArrayList)Session[String.Concat("balance-", sessionId)];
                 cumAddedPymtArray = (ArrayList)Session[String.Concat("cumAddedPymt-", sessionId)];
 
-                // Modify addedPymtArray
+                // Modify arrays
                 for (int r = addedPymtStartingRow; r < addedPymtArray.Count; r++)
                 {
+                    oldAddedPayment = (double)addedPymtArray[r];
                     addedPymtArray[r] = additionalPymt;
-                    cumulativeAddedPymts = cumulativeAddedPymts + additionalPymt;
+                    cumulativeAddedPymts = cumulativeAddedPymts + additionalPymt - oldAddedPayment;
                     cumAddedPymtArray[r] = cumulativeAddedPymts;
                     balanceArray[r] = (double)balanceArray[r] - cumulativeAddedPymts;
                 }
+
+                // Resave the modified arrays
+                Session[String.Concat("addedPymt-", sessionId)] = addedPymtArray;
+                Session[String.Concat("balance-", sessionId)] = balanceArray;
+                Session[String.Concat("cumAddedPymt-", sessionId)] = cumAddedPymtArray;
             }
 
 
@@ -113,7 +121,7 @@ namespace MortgageCalulator.Controllers
 
             // Build data model for table from the ArrayLists
             month = (int)monthsIntoLoan;
-            balance = (double)balanceArray[month];
+            balance = (double)balanceArray[month] - adjustment;
             total = (double)pAndIArray[month] + (double)addedPymtArray[month] + taxAndIns;
 
             while ((balance > 0.0) && (month < termOfLoan) )
@@ -142,7 +150,7 @@ namespace MortgageCalulator.Controllers
 
                 // Iterate row
                 month++;
-                balance = (double)balanceArray[month];
+                balance = (double)balanceArray[month] - adjustment;
             }
 
 
@@ -155,9 +163,16 @@ namespace MortgageCalulator.Controllers
 
         private string AlphaStrip (string x)
         {
-            string y = x.Replace(",", "");
-            y = y.Replace("$", "");
-            return y;
+            if (!String.IsNullOrEmpty(x))
+            {
+                string y = x.Replace(",", "");
+                y = y.Replace("$", "");
+                return y;
+            }
+            else
+            {
+                return "0.0";
+            }
         }
 
         private double GetAddedPaymentValue(int i, ArrayList addedPymtArray)
